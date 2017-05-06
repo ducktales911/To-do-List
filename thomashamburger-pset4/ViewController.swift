@@ -9,7 +9,7 @@
 import UIKit
 import SQLite
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var createTodo: UITextField!
     
@@ -29,7 +29,18 @@ class ViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    // TODO: ZORGEN DAT INT TER GROTE VAN DE TODO LIST GERETURND WORDT (MISSCHIEN GEWOON "id"?)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    // TODO: INVULLEN MET DATA DIE UIT SEARCH GEHAALD WORDT
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TodoCell
+        return cell
+        
     }
 
     // INSERT INTO "todos" ("name") VALUES ('Boodschappen')
@@ -47,7 +58,7 @@ class ViewController: UIViewController {
     // TODO: ZOEKFUCNTIE: Wordt nu nog niet gebruikt
     func searchInDatabase() {
         do {
-            for todo in try db!.prepare(todos.filter(name.like("Boodschappen"))) {
+            for todo in try db!.prepare(todos.filter(name.like("boodschappen"))) {
             print("id: \(todo[id]), name: \(todo[name])")
             // TODO: Plaats data in table view cells
             }

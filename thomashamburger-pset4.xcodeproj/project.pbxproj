@@ -13,6 +13,7 @@
 		E98C8CC51EBCACD4001FD3EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E98C8CC41EBCACD4001FD3EF /* Assets.xcassets */; };
 		E98C8CC81EBCACD4001FD3EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E98C8CC61EBCACD4001FD3EF /* LaunchScreen.storyboard */; };
 		E98C8CE71EBCAD89001FD3EF /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E98C8CDA1EBCAD5F001FD3EF /* SQLite.framework */; };
+		E98DFDA81EBE145800A32977 /* TodoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98DFDA71EBE145800A32977 /* TodoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		E98C8CC71EBCACD4001FD3EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E98C8CC91EBCACD4001FD3EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E98C8CCF1EBCAD5F001FD3EF /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "External/SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
+		E98DFDA71EBE145800A32977 /* TodoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				E98C8CBD1EBCACD4001FD3EF /* AppDelegate.swift */,
 				E98C8CBF1EBCACD4001FD3EF /* ViewController.swift */,
 				E98C8CC11EBCACD4001FD3EF /* Main.storyboard */,
+				E98DFDA71EBE145800A32977 /* TodoCell.swift */,
 				E98C8CC41EBCACD4001FD3EF /* Assets.xcassets */,
 				E98C8CC61EBCACD4001FD3EF /* LaunchScreen.storyboard */,
 				E98C8CC91EBCACD4001FD3EF /* Info.plist */,
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E98C8CC01EBCACD4001FD3EF /* ViewController.swift in Sources */,
+				E98DFDA81EBE145800A32977 /* TodoCell.swift in Sources */,
 				E98C8CBE1EBCACD4001FD3EF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -26,15 +26,36 @@
                                 <rect key="frame" x="16" y="90" width="343" height="519"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="pOt-Eo-mdw">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="pOt-Eo-mdw" customClass="TodoCell" customModule="thomashamburger_pset4" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pOt-Eo-mdw" id="zHV-P1-Ur1">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TODO 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tad-i4-qgX">
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Tad-i4-qgX" secondAttribute="trailing" id="qea-ui-Igx"/>
+                                                <constraint firstItem="Tad-i4-qgX" firstAttribute="leading" secondItem="zHV-P1-Ur1" secondAttribute="leading" id="uM5-DX-73e"/>
+                                                <constraint firstItem="Tad-i4-qgX" firstAttribute="top" secondItem="zHV-P1-Ur1" secondAttribute="top" id="wuh-vS-kio"/>
+                                                <constraint firstAttribute="bottom" secondItem="Tad-i4-qgX" secondAttribute="bottom" id="zIf-zX-xN6"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="todoLabel" destination="Tad-i4-qgX" id="o3d-jc-Ue8"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="OEv-J3-e5Y"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="jqj-PN-tb1"/>
+                                </connections>
                             </tableView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pcy-ZI-N25">
                                 <rect key="frame" x="16" y="617" width="297" height="30"/>
