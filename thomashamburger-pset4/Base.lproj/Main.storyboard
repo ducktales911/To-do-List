@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,8 +21,66 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jf2-md-0aN">
+                                <rect key="frame" x="16" y="90" width="343" height="519"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="pOt-Eo-mdw">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pOt-Eo-mdw" id="zHV-P1-Ur1">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pcy-ZI-N25">
+                                <rect key="frame" x="16" y="617" width="297" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhz-9q-WMR">
+                                <rect key="frame" x="321" y="617" width="38" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="38" id="rZF-ZD-LIF"/>
+                                </constraints>
+                                <state key="normal" title="Add"/>
+                                <connections>
+                                    <action selector="storeInDatabase:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Ar-mE-rwP"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To-do List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lue-fd-2Vo">
+                                <rect key="frame" x="16" y="28" width="343" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="d1p-ou-8Yt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Pcy-ZI-N25" secondAttribute="bottom" constant="20" symbolic="YES" id="0q4-NS-gY3"/>
+                            <constraint firstItem="hhz-9q-WMR" firstAttribute="leading" secondItem="Pcy-ZI-N25" secondAttribute="trailing" constant="8" symbolic="YES" id="Cb4-GJ-Vct"/>
+                            <constraint firstItem="Lue-fd-2Vo" firstAttribute="leading" secondItem="Jf2-md-0aN" secondAttribute="leading" id="Da8-ec-dsJ"/>
+                            <constraint firstItem="Pcy-ZI-N25" firstAttribute="top" secondItem="Jf2-md-0aN" secondAttribute="bottom" constant="8" symbolic="YES" id="G3d-Ho-DKB"/>
+                            <constraint firstItem="Lue-fd-2Vo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Hbl-AY-9vG"/>
+                            <constraint firstItem="Lue-fd-2Vo" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Hd6-rW-uvA"/>
+                            <constraint firstItem="Pcy-ZI-N25" firstAttribute="top" secondItem="hhz-9q-WMR" secondAttribute="top" id="R4v-dt-bqj"/>
+                            <constraint firstItem="Jf2-md-0aN" firstAttribute="trailing" secondItem="hhz-9q-WMR" secondAttribute="trailing" id="Rg9-wY-Uls"/>
+                            <constraint firstItem="Jf2-md-0aN" firstAttribute="top" secondItem="Lue-fd-2Vo" secondAttribute="bottom" constant="8" symbolic="YES" id="ZDp-gp-fwd"/>
+                            <constraint firstItem="Lue-fd-2Vo" firstAttribute="trailing" secondItem="Jf2-md-0aN" secondAttribute="trailing" id="eLJ-mm-RbH"/>
+                            <constraint firstItem="Jf2-md-0aN" firstAttribute="leading" secondItem="Pcy-ZI-N25" secondAttribute="leading" id="jHJ-EQ-Q3M"/>
+                            <constraint firstItem="Lue-fd-2Vo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="wq8-iS-Czf"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="createTodo" destination="Pcy-ZI-N25" id="A25-cD-OKq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
