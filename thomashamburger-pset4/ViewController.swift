@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var createTodo: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
-    private var db: Connection?
+    private var database: Connection?
     
     // The table consist of two columns: id and name.
     let todos = Table("todos")
@@ -25,6 +25,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDatabase()
+        updateTodoArray()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,68 +43,62 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
+        
     {
         if editingStyle == .delete
         {
-              todosArray[indexPath.row] = ""
-//            let normalInt = indexPath.row
-//            let sixfourInt = Int64(normalInt)
-//            let todo = todos.filter(id == sixfourInt)
-//            do {
-//                try db?.run(todo.delete())
-//            } catch {
-//                print("could not delete todo")
-//            }
-            tableView.reloadData()
+            let item = todos.filter(name == todosArray[indexPath.row])
+            do {
+                try database!.run(item.delete())
+                updateTodoArray()
+            } catch {
+                print("Could not delete todo: \(error)")
+            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 
     // TODO: INVULLEN MET DATA DIE UIT SEARCH GEHAALD WORDT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TodoCell
-        let todoEntry = todosArray[indexPath.row]
-        cell.todoLabel.text = todoEntry
+        cell.todoLabel.text = todosArray[indexPath.row]
         return cell
     }
 
     // INSERT INTO "todos" ("name") VALUES
     @IBAction func storeInDatabase(_ sender: Any) {
         if let text = createTodo.text, !text.isEmpty {
-            // let insert = todos.insert(name <- text)
-            //do {
-                // let rowId = try db!.run(insert)
-                // print(rowId)
-                todosArray.append(text)
-                tableView.reloadData()
-           // } catch {
-            //    print("Error creating todo: \(error)")
-            //}
+            let insert = todos.insert(name <- text)
+            do {
+                try database!.run(insert)
+                print("ADDED insert: \(text) to SQL")
+                updateTodoArray()
+            } catch {
+            print("Error creating todo: \(error)")
+            }
+            tableView.reloadData()
+            createTodo.text = ""
         }
     }
     
     // TODO: ZOEKFUCNTIE
-    func searchInDatabase(normalInt: Int) -> String {
-        let sixfourInt = Int64(normalInt)
-        var todoString = ""
+    func updateTodoArray(){
+        todosArray.removeAll()
         do {
-            for todo in try db!.prepare(todos.filter(id == sixfourInt)) {
-            print("id: \(todo[id]), name: \(todo[name])")
-            todoString = todo[name]
-            // TODO: Plaats data in table view cells
+            for todo in try database!.prepare(todos) {
+                    todosArray.append(todo[name])
+                    print(todo[id])
             }
         } catch {
             // Error handling.
             print("Cannot connect to database: \(error)")
-            todoString = "hai"
         }
-        return todoString
     }
     
     private func setupDatabase() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        
         do {
-            db = try Connection("\(path)/db.sqlite3")
+            database = try Connection("\(path)/db.sqlite3")
             createTable()
         } catch {
             // Error handling here.
@@ -113,10 +108,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     private func createTable() {    
         do {
-            try db!.run(todos.create(ifNotExists: true) { t in // CREATE TABLE "todos"
-                
+            try database!.run(todos.create(ifNotExists: true) { t in // CREATE TABLE "todos"
                 t.column(id, primaryKey: .autoincrement)// "id" INTEGER IN PRIMARY KEY AUTOINCREMENT,
-                t.column(name) // "name" TEXT UNIQUE NOT NULL
+                t.column(name) // "name" TEXT
             })
         } catch {
             print("Failed to create table: \(error)")
