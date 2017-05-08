@@ -101,6 +101,7 @@
                     </view>
                     <connections>
                         <outlet property="createTodo" destination="Pcy-ZI-N25" id="A25-cD-OKq"/>
+                        <outlet property="tableView" destination="Jf2-md-0aN" id="3Le-JR-5Kc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
