@@ -32,7 +32,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
     }
     
-    // TODO: ZORGEN DAT INT TER GROTE VAN DE TODO LIST GERETURND WORDT (MISSCHIEN GEWOON "id"?)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todosArray.count
     }
@@ -58,8 +57,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
-    // TODO: INVULLEN MET DATA DIE UIT SEARCH GEHAALD WORDT
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TodoCell
         cell.todoLabel.text = todosArray[indexPath.row]
         return cell
@@ -81,7 +79,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
-    // TODO: ZOEKFUCNTIE
+    // Recreates the array used to store todos from the data in the database.
     func updateTodoArray(){
         todosArray.removeAll()
         do {
