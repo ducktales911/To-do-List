@@ -68,11 +68,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
-    // TODO: functie "clicked on cell"
+    // Handles the checkmarks
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        let todoName = todosArray[indexPath.row].text
-        print(todoName)
         let todoID = todosArray[indexPath.row].id
         let checkThisOff = todos.filter(id == todoID)
         do {
@@ -84,13 +82,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } catch {
             print("update failed: \(error)")
         }
-        print(todosArray[indexPath.row].done)
         updateTodoArray()
         tableView.reloadData()
-
-        for todoItem in try! database!.prepare(todos.filter(id == todoID)) {
-            print("id: \(todoItem[id])")
-        }
     }
 
     // INSERT INTO "todos" ("name") VALUES
@@ -99,7 +92,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let insert = todos.insert(name <- text, checkedOff <- false)
             do {
                 try database!.run(insert)
-                print("ADDED insert: \(text) to SQL")
                 updateTodoArray()
             } catch {
             print("Error creating todo: \(error)")
@@ -115,9 +107,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         do {
             for todo in try database!.prepare(todos) {
                 todosArray.append((todo[id], todo[name], todo[checkedOff]))
-                    print(todo[id])
-                    print(todo[name])
-                    print(todo[checkedOff])
             }
         } catch {
             // Error handling.
