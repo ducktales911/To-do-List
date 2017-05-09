@@ -5,6 +5,9 @@
 //  Created by Thomas Hamburger on 05-05-17.
 //  Copyright © 2017 Thomas Hamburger. All rights reserved.
 //
+//
+//
+//
 
 import UIKit
 import SQLite
@@ -16,11 +19,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     private var database: Connection?
     
-    // The table consist of two columns: id and name.
+    // The table consist of three columns: id, name and checkedOff.
     let todos = Table("todos")
     let id = Expression<Int64>("id")
     let name = Expression<String>("name")
-    var todosArray = [String]()
+    let checkedOff = Expression<Bool>("checkedOff")
+    
+    var todosArray = [(id: Int64, text: String, done: Bool)]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,21 +37,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todosArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
-    {
-        return true
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return todosArray.count }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool { return true }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
         
     {
         if editingStyle == .delete
         {
-            let item = todos.filter(name == todosArray[indexPath.row])
+            let item = todos.filter(id == todosArray[indexPath.row].id)
             do {
                 try database!.run(item.delete())
                 updateTodoArray()
@@ -59,14 +58,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TodoCell
-        cell.todoLabel.text = todosArray[indexPath.row]
+            cell.todoLabel.text = todosArray[indexPath.row].text
+            if(todosArray[indexPath.row].done == true) {
+                cell.accessoryType = .checkmark
+            }
+            else {
+                cell.accessoryType = .none
+            }
         return cell
+    }
+    
+    // TODO: functie "clicked on cell"
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        let todoName = todosArray[indexPath.row].text
+        print(todoName)
+        let todoID = todosArray[indexPath.row].id
+        let checkThisOff = todos.filter(id == todoID)
+        do {
+            if try database!.run(checkThisOff.update(checkedOff <- !checkedOff)) > 0 {
+                print("Todo checked off")
+            } else {
+                print("Todo to check off not found")
+            }
+        } catch {
+            print("update failed: \(error)")
+        }
+        print(todosArray[indexPath.row].done)
+        updateTodoArray()
+        tableView.reloadData()
+
+        for todoItem in try! database!.prepare(todos.filter(id == todoID)) {
+            print("id: \(todoItem[id])")
+        }
     }
 
     // INSERT INTO "todos" ("name") VALUES
     @IBAction func storeInDatabase(_ sender: Any) {
         if let text = createTodo.text, !text.isEmpty {
-            let insert = todos.insert(name <- text)
+            let insert = todos.insert(name <- text, checkedOff <- false)
             do {
                 try database!.run(insert)
                 print("ADDED insert: \(text) to SQL")
@@ -84,8 +114,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         todosArray.removeAll()
         do {
             for todo in try database!.prepare(todos) {
-                    todosArray.append(todo[name])
+                todosArray.append((todo[id], todo[name], todo[checkedOff]))
                     print(todo[id])
+                    print(todo[name])
+                    print(todo[checkedOff])
             }
         } catch {
             // Error handling.
@@ -107,8 +139,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private func createTable() {    
         do {
             try database!.run(todos.create(ifNotExists: true) { t in // CREATE TABLE "todos"
-                t.column(id, primaryKey: .autoincrement)// "id" INTEGER IN PRIMARY KEY AUTOINCREMENT,
-                t.column(name) // "name" TEXT
+                t.column(id, primaryKey: .autoincrement)// "id" INTEGER // primaryKey: .autoincrement
+                t.column(name) // "name" STRING
+                t.column(checkedOff) // "checkedOff" BOOLEAN
             })
         } catch {
             print("Failed to create table: \(error)")
